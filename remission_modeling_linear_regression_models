@@ -1,0 +1,20 @@
+%%import data 
+%%the imported data should have the following columns: participant_ID, brain regions of interest, baseline Montgomery–Åsberg Depression Rating Scale (MADRS) score (or a baseline depression score), age, sex, and site (the site where participants' data was taken)
+
+%%creating a variable with all the names of the brain regions of interest
+roinames=optdata_CT_isovf.Properties.VariableNames([696, 697, 712, 713, 727:760, 762:795, 797, 798]);
+
+%% Does NODDI predict remission status? 
+%% seeing whether noddi values (here, fraction of isotropic diffusion/isovf/fISO) predicts remission status (remission vs non-remission) in treatment-resistant late-life depression
+%% covarying for baseline depression scores, age, sex, and site in this linear regression model
+
+stats_isovf_predict_remission_step1_final=table(); %%creating a new table
+for i=1:75 %%loop to go through all the brain regions (roinames contains 74 brain regions)
+    mdl = fitlm(isovf_step1_final, strcat('remission ~', roinames{i},'+baseline_madrs+AGE+SEX+SITE_TXT_data')); %%the main linear regression model
+    stats_isovf_predict_remission_step1_final.tStat(i)=mdl.Coefficients.tStat(7);
+    stats_isovf_predict_remission_step1_final.pValue(i)=mdl.Coefficients.pValue(7);
+end
+stats_isovf_predict_remission_step1_final.adjusted_pValues=bhfdr(stats_isovf_predict_remission_step1_final.pValue); %%calculating and storing adjusted p-values in the new statistics table
+stats_isovf_predict_remission_step1_final.roinames = roinames'; %%adding the names of the brain regions to each row 
+stats_isovf_predict_remission_step1_final=stats_isovf_predict_remission_step1_final(:,{'roinames','tStat', 'pValue', 'adjusted_pValues'}); %%organizing the table
+writetable(stats_isovf_predict_remission_step1_final, 'stats_isovf_predict_remission_step1_final.csv'); %%saving the table
