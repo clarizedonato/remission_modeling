@@ -1,4 +1,5 @@
 # Remission Modeling
+The code in this repo is meant to be run in MATLAB R2024b
 
 In this code, a linear regression model is used to predict whether noddi isovf values are associated with treatment outcomes in individuals with treatment-resistant late-life depression.   
 This code is a simple loop of a linear regression model. 
