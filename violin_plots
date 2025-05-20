@@ -2,13 +2,13 @@
 %%based on daviolin, original code/package found here: https://github.com/povilaskarvelis/DataViz
 
 %% full violin plots, white embedded boxplots, 3x2 data
-%% select brain regions of interest which you would like to visualize in the violin plots (ex. ctx_lh_medialorbitofrontal, etc)
+%% select brain regions of interest which you would like to visualize in the violin plots (ex. brain region, etc)
 
 %%creating condition_names, which will be the names of the brain regions of interest (x-axis labels)
-condition_names={'Right medialorbitofrontal', 'Left medialorbitofrontal', 'Left middletemporal', 'Right inferiorparietal'};
+condition_names={'brain region', 'brain region', 'brain region', 'brain region'};
 
 figure;
-h = daviolinplot((isovf_step1_final{:,{'ctx_rh_medialorbitofrontal', 'ctx_lh_medialorbitofrontal', 'ctx_lh_middletemporal', 'ctx_rh_inferiorparietal'}}),'groups',isovf_step1_final.remission,...
+h = daviolinplot((isovf_step1_final{:,{'brain region', 'brain region', 'brain region', 'brain region'}}),'groups',isovf_step1_final.remission,...
     'xtlabels', condition_names,'violin','full','boxcolors','w');
 h.remission(1).FaceColor = 'b';  %1 shows up first in the remission column, which means remission achieved 
 h.remission(2).FaceColor = 'r';  %0 shows up second in the remission column, which means non-remission
